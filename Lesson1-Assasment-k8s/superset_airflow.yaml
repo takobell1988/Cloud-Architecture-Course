@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superset
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      bb: superset
+  template:
+    metadata:
+      labels:
+        bb: superset
+    spec:
+      containers:
+      - name: superset
+        image: amancevice/superset:0.18.5
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: superset
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    bb: superset
+  ports:
+  - port: 8088
+    targetPort: 8088
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airflow
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      bb: airflow
+  template:
+    metadata:
+      labels:
+        bb: airflow
+    spec:
+      containers:
+      - name: airflow
+        image: puckel/docker-airflow:1.10.9
+        imagePullPolicy: Always
+        env:
+        - name: LOAD_EX
+          value: "y"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: airflow
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    bb: airflow
+  ports:
+  - port: 8080
+    targetPort: 8080
+
+
+

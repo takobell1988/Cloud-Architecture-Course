@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      bb: nginx
+  template:
+    metadata:
+      labels:
+        bb: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.15.12-alpine
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: dev
+spec:
+  type: NodePort
+  selector:
+    bb: nginx
+  ports:
+  - port: 80
+    targetPort: 80
+
+
+---
+
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prd
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: prd
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      bb: nginx
+  template:
+    metadata:
+      labels:
+        bb: nginx
+    spec:
+      containers:
+      - name: superset
+        image: nginx:1.15.12-alpine
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: prd
+spec:
+  type: NodePort
+  selector:
+    bb: nginx
+  ports:
+  - port: 80
+    targetPort: 80
+
+---
