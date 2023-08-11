@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstack
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      bb: bookstack
+  template:
+    metadata:
+      labels:
+        bb: bookstack
+    spec:
+      containers:
+      - name: bookstack
+        image: solidnerd/bookstack:23.6.0
+        imagePullPolicy: Always
+        env:
+        - name: DB_HOST
+          value: "bookstack-db:3306"
+        - name: DB_DATABAS
+          value: "bookstack"
+        - name: DB_PASSWORD
+          value: "secret"
+        - name: APP_URL
+          value: "http://example.com"
+        ports:
+        - containerPort: 8080
+          name: bookstack
+        
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstack
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    bb: bookstack
+  ports:
+  - port: 8080
+    targetPort: 8080
+
