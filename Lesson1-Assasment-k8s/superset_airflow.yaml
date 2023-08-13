@@ -61,7 +61,7 @@ metadata:
   name: airflow
   namespace: default
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     bb: airflow
   ports:
