@@ -13,6 +13,7 @@ wp_deployment:
 
 wp_service:
   name: wordpress
+  app_lable: wordpress
   type: LoadBalancer
   port: 80
   tier: frontend

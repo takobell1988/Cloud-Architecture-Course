@@ -3,18 +3,18 @@ kind: Deployment
 metadata:
   name: {{ .Values.mysql_deployment.name }}
   labels:
-    app: {{ .Values.mysql_deployment.app_lable }}
+    app: {{ .Values.mysql_deployment.app_label }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.mysql_deployment.app_lable }}
+      app: {{ .Values.mysql_deployment.app_label }}
       tier: {{ .Values.mysql_deployment.tier }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: {{ .Values.mysql_deployment.app_lable }}
+        app: {{ .Values.mysql_deployment.app_label }}
         tier: {{ .Values.mysql_deployment.tier }}
     spec:
       containers:

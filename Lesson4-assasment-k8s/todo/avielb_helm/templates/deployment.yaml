@@ -21,14 +21,10 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app.kubernetes.io/name: site
-        io.kompose.service: site
+        app.kubernetes.io/name: {{ .Values.deployment.name }}
+        io.kompose.service: {{ .Values.deployment.name }}
     spec:
-      nodeSelector:
-        type: "online"
       terminationGracePeriodSeconds: 30
-      imagePullSecrets:
-      - name: tictuk
       containers:
       - image: "{{ .Values.deployment.image.app }}:{{ .Values.deployment.image.version }}"
         imagePullPolicy: Always
