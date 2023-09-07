@@ -1,0 +1,38 @@
+---
+############# site-pod.yaml #############
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.8.0 (0c0c027)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: {{ .Values.deployment.name }}
+  name: {{ .Values.deployment.name }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Values.deployment.name }}
+  replicas: {{ .Values.deployment.replicaCount }}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: site
+        io.kompose.service: site
+    spec:
+      nodeSelector:
+        type: "online"
+      terminationGracePeriodSeconds: 30
+      imagePullSecrets:
+      - name: tictuk
+      containers:
+      - image: "{{ .Values.deployment.image.app }}:{{ .Values.deployment.image.version }}"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        name: {{ .Values.deployment.name }}
+status: {}

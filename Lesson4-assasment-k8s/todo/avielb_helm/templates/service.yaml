@@ -1,0 +1,21 @@
+############# site-service.yaml #############
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: {{ .Values.service.name }}
+  name: {{ .Values.service.name }}
+spec:
+  ports:
+  - name: "80"
+    port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.port }}
+    nodePort: {{ .Values.service.nodePort }}
+  selector:
+    io.kompose.service: {{ .Values.service.name }}
+  type: {{ .Values.service.type }}
+status:

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.wp_service.name }}
+  labels:
+    app: {{ .Values.wp_service.app_lable }}
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: {{ .Values.wp_service.app_lable }}
+    tier: {{ .Values.wp_service.tier }}
+  type: {{ .Values.wp_service.type }}

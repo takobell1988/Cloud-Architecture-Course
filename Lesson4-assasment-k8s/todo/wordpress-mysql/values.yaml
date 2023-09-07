@@ -1,0 +1,46 @@
+# Default values for myfirstchart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+wp_deployment:
+  name: wordpress
+  tier: frontend
+  image: wordpress:6.2.1-apache
+  version: latest
+  containerPort: 80
+
+
+wp_service:
+  name: wordpress
+  type: LoadBalancer
+  port: 80
+  tier: frontend
+
+wp_pvc:
+  name: wp-pv-claim
+  app_lable: wordpress
+  storage: 20Gi
+
+
+
+
+mysql_deployment:
+  name: mysql
+  app_label: wordpress
+  tier: mysql
+  image: mysql:8.0
+  version: latest
+  container_port: 3306
+
+mysql_service:
+  name: wordpress-mysql
+  app_lable: wordpress
+  port: 3306
+  tier: mysql
+
+mysql_pvc:
+  name: mysql-pv-claim
+  app_lable: wordpress
+  storage: 20Gi
+
